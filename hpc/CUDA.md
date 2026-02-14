@@ -13,7 +13,8 @@
 3. hopper: TMA, WGMMA, fp8
 4. mma, wmma, wgmma
 
-
+### 内存层级
+Host mem -> HBM -> reg, L1 -> HBM -> Host mem
 
 本章内容整理自 [UIUC ECE408/CS483/CSE408 Applied Parallel Programming](https://ece.illinois.edu/academics/courses/ece408)
 课后作业：[https://github.com/JerryLinyx/LeNet-CUDA-ECE408](https://github.com/JerryLinyx/LeNet-CUDA-ECE408)

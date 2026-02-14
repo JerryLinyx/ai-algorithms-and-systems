@@ -27,7 +27,7 @@
 - [【必看】历史技术文章导航 - 猛猿的文章 - 知乎](https://zhuanlan.zhihu.com/p/654910335)
 - [楚国刮大风 - B站](https://space.bilibili.com/20942052)
 
-## 工具
+## 思维导图 Mind Map by Mermaid
 
 https://mermaid.js.org/intro/syntax-reference.html
 
@@ -42,7 +42,7 @@ AI["AI Infra"]
 
 AI --> HPC["高性能计算"]
 AI --> Training["训练框架"]
-AI --> Inference["推理引擎"]
+AI --> Inference["推理框架"]
 AI --> Compiler["AI编译器/其他"]
 
 
@@ -51,34 +51,21 @@ AI --> Compiler["AI编译器/其他"]
 %% Profiling
 %% ======================
 HPC --> NVidia
+NVidia --> CUDA["CUDA, Cutlass, Ciblas, Cudnn"]
 NVidia --> Profiler
-Profiler --> NsightCompute
-Profiler --> NsightSys
+Profiler --> NCU["Nsight Compute(NCU) & Nsight Systems(NSYS)"]
+
 
 %% ======================
 %% NPU 技术栈
 %% ======================
 
 HPC --> NPU
+NPU --> Others["寒武纪，昆仑芯，燧原，摩尔线程，地平线，平头哥..."] 
 NPU --> Huawei["华为"] 
-
 Huawei --> Ascend["昇腾: Ascend C, 910, profile, TBE"] 
 Huawei --> Mindspore["昇思: MindSpore, mlir"] 
 
-NPU --> Others["寒武纪，昆仑芯，燧原，摩尔线程，地平线，平头哥..."] 
-
-
-%% ======================
-%% 训练框架
-%% ======================
-
-Training --> Pytorch
-Training --> Tensorflow
-Training --> Paddle
-Training --> MindSpore
-Training --> Oneflow
-Training --> Deepspeed
-Training --> Megatron-LM
 
 %% ======================
 %% 推理层
@@ -117,6 +104,22 @@ Compiler --> XLA
 Compiler --> Triton
 Compiler --> LLVM
 
+
+
+
+%% ======================
+%% 训练框架
+%% ======================
+
+Training --> Pytorch
+Training --> Tensorflow
+Training --> Paddle
+Training --> MindSpore
+Training --> Oneflow
+Training --> Deepspeed
+Training --> Megatron-LM
+Training --> verl
+Training --> unsloth
 
 ```
 
