@@ -1,3 +1,20 @@
+
+
+1. Reduce, softmax, rms_norm, layer_norm, Transpose
+2. bank conflict, roofline 分析, fusion, tiling 策略
+3. Flash attention v1 v2 v3
+4. naive softmax -> safe softmax -> online softmax -> FA1 FA2 FA3
+5. CUDA -> PTX -> SASS
+
+### Cutlass
+
+1. tensorcore, cute, ldswizzle, ldmatrix 等等
+2. sgemm, scemv, hgemm, hgemv
+3. hopper: TMA, WGMMA, fp8
+4. mma, wmma, wgmma
+
+
+
 本章内容整理自 [UIUC ECE408/CS483/CSE408 Applied Parallel Programming](https://ece.illinois.edu/academics/courses/ece408)
 课后作业：[https://github.com/JerryLinyx/LeNet-CUDA-ECE408](https://github.com/JerryLinyx/LeNet-CUDA-ECE408)
 类似课程：[CMU 15-418](https://www.cs.cmu.edu/afs/cs/academic/class/15418-s18/www/index.html), [Stanford CS149](https://gfxcourses.stanford.edu/cs149/fall21)
@@ -15,4 +32,9 @@ Wen-mei Hwu, David Kirk and Izzat El Hajj, “Programming Massively Parallel Pro
 - https://github.com/xlite-dev/LeetCUDA
 - https://github.com/karpathy/llm.c
 - [有没有一本讲解gpu和CUDA编程的经典入门书籍？ - JerryYin777的回答 - 知乎](https://www.zhihu.com/question/26570985/answer/3465784970)
+- [reed - 知乎](https://www.zhihu.com/people/reed-84-49)
 
+
+```mermaid
+
+```
