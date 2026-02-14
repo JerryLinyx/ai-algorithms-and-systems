@@ -26,6 +26,10 @@
 - [CS自学指南](https://csdiy.wiki/)
 - [【必看】历史技术文章导航 - 猛猿的文章 - 知乎](https://zhuanlan.zhihu.com/p/654910335)
 - [楚国刮大风 - B站](https://space.bilibili.com/20942052)
+- https://www.zhihu.com/people/alan-70-79-23
+- https://github.com/zhaochenyang20/Awesome-ML-SYS-Tutorial
+- https://github.com/zjhellofss/KuiperInfer
+- [进击的Bruce - 知乎](https://www.zhihu.com/people/void-73-73)
 
 ## 思维导图 Mind Map by Mermaid
 

@@ -35,7 +35,15 @@ Wen-mei Hwu, David Kirk and Izzat El Hajj, “Programming Massively Parallel Pro
 - [有没有一本讲解gpu和CUDA编程的经典入门书籍？ - JerryYin777的回答 - 知乎](https://www.zhihu.com/question/26570985/answer/3465784970)
 - [reed - 知乎](https://www.zhihu.com/people/reed-84-49)
 
+CPU vs GPU
 
-```mermaid
+| Aspect                     | CPU                                                                                                           | GPU                                                                                        |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Clock frequency            | High                                                                                                          | Moderate                                                                                   |
+| Caches                     | Large - convert long-latency memory accesses into short-latency cache accesses                                | Small - primarily to boost memory throughput                                               |
+| Control complexity         | Sophisticated control<br>Branch prediction to reduce branch latency<br>Data forwarding to reduce data latency | Simple control<br>No branch prediction or data forwarding                                  |
+| ALU design                 | Powerful ALU — reduced operation latency                                                                      | Energy-efficient ALUs — many units; long latency but heavily pipelined for high throughput |
+| Latency tolerance strategy | Rely on caches + speculation + out-of-order/control logic to reduce exposed latency                           | Require a massive number of threads to tolerate (hide) latencies                           |
+| Winning                    | For sequential parts where latency hurts                                                                      | For parallel parts where throughput wins                                                   |
 
-```
+![](assets/CUDA/file-20260213225056947.png)
