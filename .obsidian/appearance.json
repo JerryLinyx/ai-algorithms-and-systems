@@ -1,7 +1,6 @@
 {
   "cssTheme": "Minimal",
-  "translucency": true,
-  "theme": "system",
+  "textFontFamily": "iA Writer Quattro S,FZPingXianYaSongS-R-GB",
   "accentColor": "",
-  "textFontFamily": "iA Writer Quattro S,FZPingXianYaSongS-R-GB"
+  "theme": "system"
 }
