@@ -6,15 +6,15 @@
 
 ## HPC 高性能计算
 
+## Data 数据
+
+## Algorithm 算法
+
 ## Training 训练
 
 ## Inference 推理
 
-## LLM 大语言模型
 
-## AIGC 
-
-## RL 强化学习
 
 ---
 
@@ -24,16 +24,28 @@
 ## 学习资源
 
 - [CS自学指南](https://csdiy.wiki/)
+  
 - [【必看】历史技术文章导航 - 猛猿的文章 - 知乎](https://zhuanlan.zhihu.com/p/654910335)
-- [楚国刮大风 - B站](https://space.bilibili.com/20942052)
-- [ZOMI酱 - B站](https://space.bilibili.com/517221395)
+  
 - [ShusenWang - B站](https://space.bilibili.com/1369507485)
+  
+- [楚国刮大风 - B站](https://space.bilibili.com/20942052)
+  
+- [ZOMI酱 - B站](https://space.bilibili.com/517221395)
 - https://github.com/Infrasys-AI/AIInfra
+  
 - [Chayenne Zhao - 知乎](https://www.zhihu.com/people/alan-70-79-23)
 - https://github.com/zhaochenyang20/Awesome-ML-SYS-Tutorial
+  
 - https://github.com/zjhellofss/KuiperInfer
+  
+- https://github.com/jinbooooom/ai-infra-hpc
+  
 - [进击的Bruce - 知乎](https://www.zhihu.com/people/void-73-73)
+  
 - [叫我Alonzo就好了 - 知乎](https://www.zhihu.com/people/liu-chang-82-34-78)
+
+- https://se7en.mintlify.app/
 
 ## 思维导图 Mind Map by Mermaid
 

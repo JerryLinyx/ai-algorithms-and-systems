@@ -4,8 +4,13 @@
 torch.fx、torch.dynamo、Inductor
 JIT、AOT
 
-优化器（Optimizer）
+## 优化器（Optimizer）
 
-分布式并行、6D 并行
-集合通信：NCCL、HCCl、K8s
 
+
+
+## 混合精度
+
+## 梯度检查
+
+## 梯度累积
