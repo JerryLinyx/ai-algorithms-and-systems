@@ -86,23 +86,85 @@ Runtime 是指模型执行时的软件环境和调度系统。它负责把训练
 不过，Ops 有时也指 Operations（运维/工程化），如**LLMOps**，是指大模型从数据准备、训练、部署到监控的整个**生命周期管理**流程。这属于工程管理范畴，不属于底层计算定义的 Ops，注意结合上下文区分。
 
 
+### 显存占用分析
+
+>The memory consumption when training a deep learning model can be divided into two parts:
+>1. **Model States**. For large models, most of the memory consumption is occupied by the model state, which mainly includes three parts: Optimizer States, Gradients, and Parameters. The three parts are abbreviated as **OPG**.
+>2. **Residual States**. It includes activation functions, temporary buffers, and unusable memory fragments.
+
+Model States 模型本身相关且必须存储的参数：
+- Parameters：模型参数 FP32 (4 Bytes) -(if 混合精度)-> FP16 (2 Bytes)
+- Gradients：模型梯度 FP32 (4 Bytes) -(if 混合精度)-> FP16 (2 Bytes)
+- Optimizer States：if Adam
+	- Master weight (fp32): 4 Bytes
+	- Adam momentum (fp32)：4 bytes
+	- Adam Variance (fp32)： 4 bytes
+
+各种并行主要优化的是 model states
+
+Residual States 非模型必须，训练过程中产生的参数：
+- Activation：激活值 
+- Temporary Buffers：临时存储，如算子的中间变量
+- Unusable Fragmented Memory：碎片化存储空间
+激活值加临时存储约 8 Bytes
+
+
+
+分析一下，在全精度训练（FP32 + Adam）的基线下
+Parameters 4B + Gradients 4B + Adam Momentum 4B + Adam Variance 4B = 16 B
+AMP 混合精度训练下，
+Parameters 2B + Gradients 2B + Master weights 4B +  Adam Momentum 4B + Adam Variance 4B = 16 B
+在这种理想配置下，看似对 optimizer + parameter 的显存节省有限，实际上activation 是节省显存的关键，同时低精度导致 Tensor Core 吞吐暴涨，提高了 GPU 利用率
 
 ### ZeRO
 
+
 ZeRO Zero Redundancy Optimizer，一系列显存优化方法的统称：
 - ZeRO-DP（Data Parallel）：ZeRO1/2/3
-	- Optimizer state partitioning（ZeRO stage 1）：只对 optimizer 状态进行切分，占用内存原始1/4；
-	- Gradient partitioning（ZeRO stage 2）：对 optimizer  和 grad 进行切分，占用内存原始1/8；
-	- Parameter partitioning（ZeRO stage 3）：对 optimizer、grad 和模型参数进行切分，内存减少与数据并行度和复杂度成线性关系，同时通信容量是数据并行性的 1.5 倍；
 - ZeRO-R（Reduce）： Activation Checkpointing、 Memory Defragmentation
+	- 把显存占用多的部分offload到CPU上，瓶颈在通讯（一般是PCIE）
 - ZeRO-Offload： Offload Strategy && Offload Schedule
 - ZeRO-Infinity： Breaking the GPU Memory Wall for Extreme Scale Deep Learning
- 
+
+![](assets/01%20Distributed%20Training/file-20260228101741525.png)
+- Optimizer state partitioning（ZeRO stage 1）：只对 optimizer 状态进行切分，占用内存原始1/4；
+	- 把每个GPU计算的完整梯度矩阵直接all-reduce，然后根据每个GPU得到的完整梯度矩阵和部分优化器得到部分的参数矩阵再all-gather每个GPU得到
+- Gradient partitioning（ZeRO stage 2）：对 optimizer  和 grad 进行切分，占用内存原始1/8；
+- Parameter partitioning（ZeRO stage 3）：对 optimizer、grad 和模型参数进行切分，内存减少与数据并行度和复杂度成线性关系，同时通信容量是数据并行性的 1.5 倍；
+	- 通过前向和反向传播中加入all-gather的方式来减少内存占用
 
 
+### DDP
+Distributed Data Parallel
+One full copy of model and training parameters on each GPU
+做法： 每一张显卡都拷贝一份完整的模型参数。
+通信： 训练时，每张卡处理不同的 Batch。计算完梯度后，调用 All-Reduce 同步所有卡的梯度，然后各自更新参数。
+缺点是显存占用极大。如果模型本身有 10GB，你有 8 张卡，那么 80GB 的显存里有 70GB 都在存重复的参数。
+### FSDP
+Motivated by the “ZeRO” paper – zero data overlap between GPUs
+做法是把模型参数、梯度、优化器状态全部切碎（Shard），分给所有的显卡。每张卡只存 $1/N$ 的模型。
+通信：
+- 前向传播： 用 All-Gather 临时找回参数，算完立即扔掉。
+- 后向传播： 用 Reduce-Scatter 同步梯度，只保留属于自己那份。
+理论上FSDP可以训练无限大的模型，只要增加显卡数量即可。
+
+• Helps to reduce overall GPU memory utilization
+• Supports offloading to CPU if needed
+• Configure level of sharding via sharding factor
+FSDP 的核心价值不是更快，而是让大模型“能训练”
 ## 6D 并行是什么？
+- Data Parallel（DP）
+- Tensor Parallel（TP）
+- Pipeline Parallel（PP）
+- Sequence Parallel（SP）
+- Expert Parallel（EP） 
+- Optimizer Parallelism （ZeRO-style 状态分片）
 
 
-## 学习资源：
+## Reference：
+https://github.com/bitsandbytes-foundation/bitsandbytes
+https://huggingface.co/docs/transformers/v4.20.1/en/perf_train_gpu_one#anatomy-of-models-memory
+[ZeRO: Memory Optimizations Toward Training Trillion Parameter Models](https://arxiv.org/abs/1910.02054)
+[PyTorch FSDP: Experiences on Scaling Fully Sharded Data Parallel](https://arxiv.org/abs/2304.11277)
+https://siboehm.com/articles/22/data-parallel-training
 [大模型是怎么训起来的？分布式并行框架介绍 #大模型 #分布式并行 #训练 - ZOMI酱](https://www.bilibili.com/video/BV1op421C7wp/)
-
