@@ -24,6 +24,7 @@ STL相关（vector/map）
 线程与进程相关（线程安全，线程共享，锁，信号量，条件变量，OpenMP使用），内存的页管理，调度算法，流水线原理，Cache机制，中断等。
 
 ### 深度学习
+
 [Goodfellow, Bengio, Courville, “Deep Learning”](https://www.deeplearningbook.org/)
 ML performance concepts/techniques: overfitting, generalization, bias,
 variance tradeoff, regularization
@@ -79,6 +80,7 @@ Sample的主要算法：topK，topP，beam search，argmax，温度的作用。
 
 RL，PPO， DPO，agentic RL
 ## Training 训练
+[04 training/00 Deep Learning](./04%20training/00%20Deep%20Learning.md)
 
 常见通信原语：all2all，allreduce，allgather等。
 allreduce优化：ring allreduce，tree allreduce，reduce scatter等。

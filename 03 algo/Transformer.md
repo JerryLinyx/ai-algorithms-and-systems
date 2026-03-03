@@ -127,3 +127,51 @@ masked attention  设为负无穷，softmax后为0
 | Convolutional               | O(k · n · d²)        | O(1)                  | O(logₖ(n))          |
 | Self-Attention (restricted) | O(r · n · d)         | O(1)                  | O(n / r)            |
 
+
+
+
+
+
+
+## Encoder-Decoder
+
+Encoder only BERT
+Decoder only GPT
+Encoder-Decoder T5
+
+Autoencoding models 
+采用 Masked Language Modeling (MLM)
+Objective: Reconstruction（denoising）
+Good use cases：
+• Sentiment Analysis
+• Named entity recognition
+• Word classification
+Example models:
+• BERT
+• ROBERTA
+
+Autoregressive Models
+采用 Causal Language Modeling (CLM)
+Objective: Predict Next Token
+Good use cases:
+• Text generation
+• Other emergent behavior
+	• Depends on model size
+Example models:
+• GPT
+• BLOOM
+
+Sequence-to-sequence models
+Span Corruption
+Objective: Reconstruct span
+Good use cases:
+• Translation
+• Text Summarization
+• Question answering
+Example models
+• T5 （Text-to-Text Transfer Transformer
+• BART
+
+为什么选择 Autoregressive Models？
+scalable
+
