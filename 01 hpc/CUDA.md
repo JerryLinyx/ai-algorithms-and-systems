@@ -1,3 +1,88 @@
+A CUDA kernel is executed as a grid (array) of threads
+- All threads in a grid run the same kernel code
+- Single Program Multiple Data (SPMD model)
+-  Each thread has a unique index that it uses to compute memory addresses and make control decisions
+
+Threads within a block cooperate via shared memory, atomic operations and barrier synchronization
+
+Threads in different blocks cooperate less
+
+![300](assets/CUDA/file-20260312041059083.png)
+
+Thread block and thread organization simplifies memory addressing when processing multidimensional data
+
+`cudaMalloc()`
+- Allocates object in the device global memory
+- Two parameters
+	- Address of a pointer to the allocated object
+	- Size of the allocated object in terms of bytes
+
+`cudaFree()`
+- Frees object from device global memory
+- Pointer to freed object
+
+cudaMemcpy()
+- memory data transfer
+- Requires four parameters
+	- Pointer to destination
+	- Pointer to source
+	- Number of bytes copied
+	- Type/Direction of transfer
+
+|                                 | Excuted | Callable |
+| ------------------------------- | ------- | -------- |
+| `__device__` float DeviceFunc() | device  | device   |
+| `__global__` void KernelFunc()  | device  | host     |
+| `__host__` float HostFunc()     | host    | host     |
+
+
+```mermaid
+flowchart TD
+%% ======================
+%% CUDA 编译链
+%% ======================
+
+CuFile[".cu (CUDA C++)"] --> NVCC["NVCC"]
+NVCC -- .c (Host C/C++ code) --> HostCompiler["Host C/C++ Compiler"]
+NVCC -- .ptx (PTX(Virtual) ISA code) --> JIT["Device Just-in-Time Compiler"]
+
+HostCompiler -- Host Assembly (e.g. x86, Power, ARM) --> CPU
+JIT -- Device Assembly (e.g. SASS) --> GPU
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 1. Reduce, softmax, rms_norm, layer_norm, Transpose

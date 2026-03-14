@@ -242,16 +242,4 @@ Training --> unsloth
 
 ```
 
-```mermaid
-flowchart TD
-%% ======================
-%% CUDA 编译链
-%% ======================
 
-CuFile[".cu (CUDA C++)"] --> NVCC["NVCC"]
-NVCC -- .c (Host C/C++ code) --> HostCompiler["Host C/C++ Compiler"]
-NVCC -- .ptx (PTX(Virtual) ISA code) --> JIT["Device JIT Compiler"]
-
-HostCompiler -- Host Assembly (e.g. x86, Power, ARM) --> CPU
-JIT -- Device Assembly (e.g. SASS) --> GPU
-```
