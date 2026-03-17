@@ -80,12 +80,75 @@ Sample的主要算法：topK，topP，beam search，argmax，温度的作用。
 
 RL，PPO， DPO，agentic RL
 ## Training 训练
-[04 training/00 Deep Learning](./04%20training/00%20Deep%20Learning.md)
+- 常见通信原语：all2all，allreduce，allgather等。
+- allreduce优化：ring allreduce，tree allreduce，reduce scatter等。
+- ep并行中的通信：dispatch/combine。
+- 通信库的使用：MPI，NCCL，NIXL，还有Ray分布式框架。
 
-常见通信原语：all2all，allreduce，allgather等。
-allreduce优化：ring allreduce，tree allreduce，reduce scatter等。
-ep并行中的通信：dispatch/combine。
-通信库的使用：MPI，NCCL，NIXL，还有Ray分布式框架。
+[00 Deep Learning](04%20training/00%20Deep%20Learning.md)
+- [Bias 和 Variance 辨析](04%20training/00%20Deep%20Learning.md#bias-和-variance-辨析)
+- [Regularization](04%20training/00%20Deep%20Learning.md#regularization)
+- [Performance Metrics](04%20training/00%20Deep%20Learning.md#performance-metrics)
+  - [Confusion Matrix](04%20training/00%20Deep%20Learning.md#confusion-matrix-混淆矩阵)
+  - [Accuracy 准确率](04%20training/00%20Deep%20Learning.md#accuracy-准确率)
+  - [Precision 精确率](04%20training/00%20Deep%20Learning.md#precision-精确率)
+  - [Recall 召回率](04%20training/00%20Deep%20Learning.md#recall-召回率)
+  - [F1 Score](04%20training/00%20Deep%20Learning.md#f1-score)
+  - [Specificity 特异度](04%20training/00%20Deep%20Learning.md#specificity-特异度)
+  - [Balanced Accuracy](04%20training/00%20Deep%20Learning.md#balanced-accuracy-平衡准确率)
+- [训练流程](04%20training/00%20Deep%20Learning.md#训练流程)
+  - [Forward Phase](04%20training/00%20Deep%20Learning.md#forward-phase)
+  - [Backward Phase](04%20training/00%20Deep%20Learning.md#backward-phase)
+  - [Gradient Descent](04%20training/00%20Deep%20Learning.md#gradient-descent)
+  - [Stochastic Gradient Descent (SGD)](04%20training/00%20Deep%20Learning.md#stochastic-gradient-descent-sgd)
+- [梯度检查](04%20training/00%20Deep%20Learning.md#梯度检查)
+- [梯度累积](04%20training/00%20Deep%20Learning.md#梯度累积)
+- [Hyperparameters](04%20training/00%20Deep%20Learning.md#hyperparameters)
+  - [Network Architecture](04%20training/00%20Deep%20Learning.md#network-architecture)
+  - [Activation Functions](04%20training/00%20Deep%20Learning.md#activation-functions)
+  - [Weight Initializer](04%20training/00%20Deep%20Learning.md#weight-initializer)
+  - [Learning Rate](04%20training/00%20Deep%20Learning.md#learning-rate)
+  - [Batch Size](04%20training/00%20Deep%20Learning.md#batch-size)
+  - [Momentum](04%20training/00%20Deep%20Learning.md#momentum)
+  - [Optimizer](04%20training/00%20Deep%20Learning.md#optimizer)
+- [Quantization 量化](04%20training/00%20Deep%20Learning.md#quantization-量化)
+- [AMP 自动混合精度](04%20training/00%20Deep%20Learning.md#ampautomatic-mixed-precision自动混合精度)
+  - [EMA](04%20training/00%20Deep%20Learning.md#ema)
+
+[01 Distributed Training](04%20training/01%20Distributed%20Training.md)
+- [Scaling](04%20training/01%20Distributed%20Training.md#scaling)
+  - [Vertical Scaling-up 垂直扩展](04%20training/01%20Distributed%20Training.md#verbcal-scaling-up-in-a-single-node-垂直扩展--向上)
+  - [Horizontal Scaling-out 水平扩展](04%20training/01%20Distributed%20Training.md#horizontal-scaling-out-across-multiple-nodes-水平扩展--向外)
+  - [High Performance Networking](04%20training/01%20Distributed%20Training.md#high-performance-networking)
+- [6D 并行](04%20training/01%20Distributed%20Training.md#6d-并行是什么)
+- [Model Parallelism](04%20training/01%20Distributed%20Training.md#model-parallelism)
+- [Pipeline Parallelism](04%20training/01%20Distributed%20Training.md#pipeline-parallelism)
+  - [GPipe Pipelining](04%20training/01%20Distributed%20Training.md#gpipe-pipelining)
+  - [流水线气泡 Pipeline Bubble](04%20training/01%20Distributed%20Training.md#流水线气泡-pipeline-bubble)
+  - [微批次 Micro-batch](04%20training/01%20Distributed%20Training.md#微批次-micro-batch)
+  - [内存问题与扩展性](04%20training/01%20Distributed%20Training.md#对内存不友好且在面对大批次时扩展性差)
+  - [如何解决激活值显存占用](04%20training/01%20Distributed%20Training.md#如何解决激活值显存占用)
+- [Tensor Parallelism](04%20training/01%20Distributed%20Training.md#tensor-parallelism)
+- [Data Parallelism](04%20training/01%20Distributed%20Training.md#data-parallelism)
+  - [Optimizer State Sharding 优化器状态分片](04%20training/01%20Distributed%20Training.md#optimizer-state-sharding-优化器状态分片)
+- [Parameter Server 参数服务器同步](04%20training/01%20Distributed%20Training.md#parameter-server-ps-based-synchronization-参数服务器同步)
+  - [Straggler Problem 木桶效应](04%20training/01%20Distributed%20Training.md#straggler-problem--木桶效应)
+  - [Synchronous SGD Variants](04%20training/01%20Distributed%20Training.md#synchronous-sgd-variants)
+  - [Asynchronous SGD](04%20training/01%20Distributed%20Training.md#asynchronous-sgd)
+- [Ring All-Reduce](04%20training/01%20Distributed%20Training.md#ring-all-reduce)
+  - [Scatter-Reduce](04%20training/01%20Distributed%20Training.md#scatter-reduce)
+  - [All-Gather](04%20training/01%20Distributed%20Training.md#all-gather)
+- [Distributed Training Frameworks](04%20training/01%20Distributed%20Training.md#distributed-training-frameworks)
+- [DeepSpeed](04%20training/01%20Distributed%20Training.md#deepspeed)
+  - [APIs](04%20training/01%20Distributed%20Training.md#apis)
+  - [Runtime](04%20training/01%20Distributed%20Training.md#runtime)
+  - [Ops](04%20training/01%20Distributed%20Training.md#ops)
+  - [显存占用分析](04%20training/01%20Distributed%20Training.md#显存占用分析)
+  - [ZeRO](04%20training/01%20Distributed%20Training.md#zero)
+- [DDP](04%20training/01%20Distributed%20Training.md#ddp)
+- [FSDP](04%20training/01%20Distributed%20Training.md#fsdp)
+
+
 
 ## Inference 推理
 

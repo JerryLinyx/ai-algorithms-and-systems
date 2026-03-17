@@ -177,6 +177,63 @@ Still has two control paths, but all threads in any warp follow only one path. �
 The Von-Neumann Model
 ![](assets/CUDA/file-20260317072957423.png)
 
+Instruction processing: Fetch | Decode | Execute | Memory
+
+Each thread can:
+– read/write per-thread registers (~1 cycle)
+– read/write per-block shared memory (~5 cycles)
+– read/write per-grid global memory (~500 cycles)
+– read/only per-grid constant memory (~5 cycles with caching)
+
+![](assets/CUDA/file-20260317073833376.png)
+
+
+
+| Variable declaration                     | Memory   | Scope  | Lifetime    |
+|------------------------------------------|----------|--------|-------------|
+| `int LocalVar;`                          | register | thread | thread      |
+| `__device__ __shared__ int SharedVar;`   | shared   | block  | block       |
+| `__device__ int GlobalVar;`              | global   | app.   | application |
+| `__device__ __constant__ int ConstantVar;` | constant | app.   | application |
+`__device__`
+- optional with `__shared__` or `__constant__`
+- not allowed by itself within functions
+Automatic variables with no qualifiers
+- in **registers** for primitive types and structures
+- in **global memory** for per-thread arrays
+
+### MM
+
+
+二维 grid/block 模版
+```cpp
+dim3 dimGrid(ceil((1.0*Width)/TILE_WIDTH),
+             ceil((1.0*Width)/TILE_WIDTH), 1);
+dim3 dimBlock(TILE_WIDTH, TILE_WIDTH, 1);
+MatrixMulKernel<<<dimGrid, dimBlock>>>(Md, Nd, Pd, Width);
+```
+
+```cpp
+__global__ 
+void MatrixMulKernel(float* d_M, float* d_N, float* d_P, int Width) 
+{
+    int Row = blockIdx.y * blockDim.y + threadIdx.y;
+    int Col = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if ((Row < Width) && (Col < Width)) {
+        float Pvalue = 0;
+        for (int k = 0; k < Width; ++k)
+            Pvalue += d_M[Row * Width + k] * d_N[k * Width + Col];
+        d_P[Row * Width + Col] = Pvalue;
+    }
+}
+```
+A simple implementation -> GPU kernel is the CPU code with the outer loops replaced with per-thread index calculations -> bad performance
+
+Why? Global memory bandwidth can’t supply enough data to keep the SMs busy. 
+accesses to global memory:
+`d_M[Row * Width + k]`, `d_N[k * Width + Col]`, `d_P[Row * Width + Col]`
+
 
 
 
