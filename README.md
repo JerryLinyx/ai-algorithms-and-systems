@@ -3,40 +3,6 @@
 本仓库整理了关于生成式人工智能（Generative AI）相关算法与系统工程方向的学习笔记。
 
 ---
-## Fundamentals 基础
-
-### C++
-运行时多态，函数与类模板，函数重载
-内存泄露的场景，内存的栈/堆/静态存储区
-inline函数与宏，常见关键字（static/const/explicit），智能指针，Lambda表达式
-STL相关（vector/map）
-常见模式设计（模板模式，单例模式）
-
-### 数据结构
-[代码随想录](https://programmercarl.com/)
-[灵茶山艾府](https://space.bilibili.com/206214)
-[分享｜如何科学刷题？](https://leetcode.cn/circle/discuss/RvFUtj/)
-常见排序算法
-栈，队列，二叉树，链表（环形，反转，合并，相交），图论，哈希
-
-### 操作系统
-[小林coding](https://xiaolincoding.com/)
-线程与进程相关（线程安全，线程共享，锁，信号量，条件变量，OpenMP使用），内存的页管理，调度算法，流水线原理，Cache机制，中断等。
-
-### 深度学习
-
-[Goodfellow, Bengio, Courville, “Deep Learning”](https://www.deeplearningbook.org/)
-ML performance concepts/techniques: overfitting, generalization, bias,
-variance tradeoff, regularization
-• Performance metrics: algorithmic and system Level
-• DL training hyperparameters
-	• batch size, learning rate, momentum, weight decay
-• Single node vs distributed training
-• Model and Data Parallelism
-• Parameter server, all reduce
-• Convergence and runtime
-• Hardware Acceleration: GPUs, TPUs, NCCL
-
 ## HPC 高性能计算
 
 https://leetgpu.com/challenges
@@ -49,36 +15,7 @@ thread/block/grid的关系。
 几个内存关系：global/constant/texture memory。
 同步，流，以及事件的使用。
 bank冲突，以及如何优化。
-Cutlass，Cute，Triton
 
-注意区分
-OpenAI Triton 来自 OpenAI，是一种写 GPU kernel 的 DSL，类似 CUDA C++ 的替代 用于写自定义高性能算子（FlashAttention、LayerNorm、Softmax…）。 PyTorch 2.x 的 TorchInductor 依赖它生成 fused kernels
-NVIDIA Triton Inference Server 来自 NVIDIA 是一个推理部署服务器（Serving framework） 用来托管模型、调度请求、动态 batching、HTTP/gRPC 服务 Backend 支持 TensorRT / ONNX / PyTorch 等 完全不涉及写 kernel，也不使用 Triton DSL 
-
-## Data 数据
-
-## Algorithm 算法
-
-• Seq2Seq models
-• Encoder and decoder
-• Attention mechanism
-• Transformer architecture: self-attention, multi-head attention, encoder-
-decoder attention
-• LLMs: BERT, OpenAI GPT, LLAMA, Gemini, Claude
-
-mha/mqa/gqa/mla的区别。
-deepseek：flashmla的实现，deepep的实现，MTP。
-qwen：linear attention的基本流程，自己如何优化，gated attention的作用。
-了解模型主要参数：比如多少layer，多少路由专家，head num，head dim等。
-另外一些经典模型：llama，mixtral-8x7B，mistral，gemma，phi等。
-
-flash attention的实现原理，三个版本之间的区别。
-ffn模块的主要流程，比如silu激活函数，为什么ffn中要升维再降维等。
-moe模块的主要流程，比如，router模块，以token为单位选择路由专家。
-rope的计算逻辑，以及各类长文本扩展方案，比如sliding window，Yarn，Scale，DynamicNTK等。
-Sample的主要算法：topK，topP，beam search，argmax，温度的作用。
-
-RL，PPO， DPO，agentic RL
 ## Training 训练
 - 常见通信原语：all2all，allreduce，allgather等。
 - allreduce优化：ring allreduce，tree allreduce，reduce scatter等。
@@ -149,6 +86,72 @@ RL，PPO， DPO，agentic RL
 - [FSDP](04%20training/01%20Distributed%20Training.md#fsdp)
 
 
+
+
+## Fundamentals 基础
+
+### C++
+运行时多态，函数与类模板，函数重载
+内存泄露的场景，内存的栈/堆/静态存储区
+inline函数与宏，常见关键字（static/const/explicit），智能指针，Lambda表达式
+STL相关（vector/map）
+常见模式设计（模板模式，单例模式）
+
+### 数据结构
+[代码随想录](https://programmercarl.com/)
+[灵茶山艾府](https://space.bilibili.com/206214)
+[分享｜如何科学刷题？](https://leetcode.cn/circle/discuss/RvFUtj/)
+常见排序算法
+栈，队列，二叉树，链表（环形，反转，合并，相交），图论，哈希
+
+### 操作系统
+[小林coding](https://xiaolincoding.com/)
+线程与进程相关（线程安全，线程共享，锁，信号量，条件变量，OpenMP使用），内存的页管理，调度算法，流水线原理，Cache机制，中断等。
+
+### 深度学习
+
+[Goodfellow, Bengio, Courville, “Deep Learning”](https://www.deeplearningbook.org/)
+ML performance concepts/techniques: overfitting, generalization, bias,
+variance tradeoff, regularization
+• Performance metrics: algorithmic and system Level
+• DL training hyperparameters
+	• batch size, learning rate, momentum, weight decay
+• Single node vs distributed training
+• Model and Data Parallelism
+• Parameter server, all reduce
+• Convergence and runtime
+• Hardware Acceleration: GPUs, TPUs, NCCL
+
+
+
+注意区分
+OpenAI Triton 来自 OpenAI，是一种写 GPU kernel 的 DSL，类似 CUDA C++ 的替代 用于写自定义高性能算子（FlashAttention、LayerNorm、Softmax…）。 PyTorch 2.x 的 TorchInductor 依赖它生成 fused kernels
+NVIDIA Triton Inference Server 来自 NVIDIA 是一个推理部署服务器（Serving framework） 用来托管模型、调度请求、动态 batching、HTTP/gRPC 服务 Backend 支持 TensorRT / ONNX / PyTorch 等 完全不涉及写 kernel，也不使用 Triton DSL 
+
+## Data 数据
+
+## Algorithm 算法
+
+• Seq2Seq models
+• Encoder and decoder
+• Attention mechanism
+• Transformer architecture: self-attention, multi-head attention, encoder-
+decoder attention
+• LLMs: BERT, OpenAI GPT, LLAMA, Gemini, Claude
+
+mha/mqa/gqa/mla的区别。
+deepseek：flashmla的实现，deepep的实现，MTP。
+qwen：linear attention的基本流程，自己如何优化，gated attention的作用。
+了解模型主要参数：比如多少layer，多少路由专家，head num，head dim等。
+另外一些经典模型：llama，mixtral-8x7B，mistral，gemma，phi等。
+
+flash attention的实现原理，三个版本之间的区别。
+ffn模块的主要流程，比如silu激活函数，为什么ffn中要升维再降维等。
+moe模块的主要流程，比如，router模块，以token为单位选择路由专家。
+rope的计算逻辑，以及各类长文本扩展方案，比如sliding window，Yarn，Scale，DynamicNTK等。
+Sample的主要算法：topK，topP，beam search，argmax，温度的作用。
+
+RL，PPO， DPO，agentic RL
 
 ## Inference 推理
 
